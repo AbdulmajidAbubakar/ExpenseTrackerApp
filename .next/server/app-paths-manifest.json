@@ -1,1 +1,3 @@
-{}
+{
+  "/addExpense/page": "app/addExpense/page.js"
+}

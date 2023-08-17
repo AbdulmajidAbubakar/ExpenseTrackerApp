@@ -3,33 +3,28 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
-import Select, { GroupBase } from "react-select";
-import spending from "@/compnents/others/spending_types";
 import "../datepicker.css";
+import ExpenseNameInput from "../../compnents/ui/AddExpense/ExpenseNameInput";
+import PriceInput from "@/compnents/ui/AddExpense/priceInput";
+import CurrencyPicker from "@/compnents/ui/AddExpense/CurrencyPicker";
+import Datepicker from "@/compnents/ui/AddExpense/Datepicker";
+import spending from "@/compnents/others/spending_types";
+import SelectType from "@/compnents/ui/AddExpense/selectType";
+import NotesForm from "@/compnents/ui/AddExpense/NotesForm";
+import BackButton from "@/compnents/ui/AddExpense/Back";
+import SubmitForm from "@/compnents/ui/AddExpense/SubmitForm";
+
+const options = spending();
+
+const [option, setOption] = useState(options[0]);
+
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export default function AddExpense() {
-  interface optiopShape {
-    value: string;
-    label: string;
-  }
-  const formatGroupLabel = (
-    data: GroupBase<{ value: string; label: string }>
-  ) => (
-    <div>
-      <span>{data.label}</span>
-      {/* <span >{data.options.length}</span> */}
-    </div>
-  );
-
-  const options = spending();
-  const [option, setOption] = useState(options[0]);
-
-  type ValuePiece = Date | null;
-
-  type Value = ValuePiece | [ValuePiece, ValuePiece];
   const [value, onChange] = useState<Value>(new Date());
   // Capitalized component name
   const formSchema = z.object({
@@ -61,39 +56,9 @@ export default function AddExpense() {
              */}
 
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end">
-              <div className="flex flex-col w-[40vw] lg:w-[30vw] m-1">
-                <span>Enpense name </span>
-                <input
-                  placeholder="Enpense name"
-                  {...register("name")}
-                  className="p-4 bg-[#f0ffcf]"
-                />
-                {errors.name && (
-                  <p className="text-[0.7em] text-red-700 capitalize">
-                    * {errors.name.message}
-                  </p>
-                )}
-              </div>
-              <div className="w-[40vw] lg:w-[15vw] flex flex-col relative m-1">
-                <span> Price</span>
-                <span className="absolute left-[4%] top-[47%] font-bold text-lg">
-                  $
-                </span>
-                <input
-                  className="p-4 pl-8 bg-[#f0ffcf]"
-                  placeholder="Price"
-                  type="number"
-                />
-              </div>
-              <div className="w-[20vw] lg:w-[8vw] mt-2 lg:mt-0 pl-1 lg:pl-2">
-                <p
-                  className="p-4 bg-[#f0ffcf] flex justify-between items-center"
-                  placeholder=""
-                >
-                  <span> USD</span>
-                  <span className="text-2xl rotate-90 "> {">"}</span>
-                </p>
-              </div>
+              <ExpenseNameInput register={register} errors={errors} />
+              <PriceInput />
+              <CurrencyPicker />
             </div>
 
             {/**
@@ -101,53 +66,21 @@ export default function AddExpense() {
              */}
 
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end">
-              <div>
-                <span>Dates</span>
-                <div className="bg-[#f0ffcf] w-[40vw] lg:w-[20vw] h-[7vh]  pl-2 flex items-center">
-                  <DatePicker
-                    className={"w-[20vw] outline-none h-[5vh]"}
-                    onChange={onChange}
-                    value={value}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <span>Type</span>
-                <span>
-                  <Select
-                    formatGroupLabel={formatGroupLabel}
-                    className="bg-[#ffffff] w-[30vw] h-[7vh] py-4"
-                    options={options}
-                    defaultValue={option}
-                    onChange={(value) => {
-                      console.log(value);
-                    }}
-                  />
-                </span>
-              </div>
+              <Datepicker value={value} onChange={onChange} />
+              <SelectType options={options} option={option} />
             </div>
 
             {/**
              * Third row
              */}
+
+            <NotesForm />
           </div>
 
           <div className="flex flex-row justify-between cursor-pointer">
-            <div
-              className="bg-[#454545] w-[50%] flex justify-center items-center text-white"
-              onClick={(e) => {
-                window.location.href = "/";
-              }}
-            >
-              Back
-            </div>
-            <button
-              type="submit"
-              className="bg-[#7ba322] w-[50%]  self-end  p-4 rounded-sm "
-            >
-              Submit
-            </button>
+            <BackButton />
+
+            <SubmitForm />
           </div>
         </form>
       </div>

@@ -55,6 +55,8 @@
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: textfield;
+  border: none !important;
+  outline: none !important;
 }
 
 .react-date-picker__inputGroup__input::-webkit-outer-spin-button,
@@ -111,6 +113,14 @@
   border-width: thin;
 }
 
+.picker {
+  grid-column: 5/10;
+  grid-row: 2/4;
+  background: cornflowerblue;
+
+  
+}
+ 
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[5].oneOf[12].use[3]!./node_modules/react-calendar/dist/Calendar.css ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************/
